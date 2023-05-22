@@ -1,23 +1,28 @@
 package main
 
 import (
-	"database/sql"
+	"flag"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"net/http"
 )
 
-var db *sql.DB
+type application struct {
+}
 
 func main() {
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", home)
-	mux.HandleFunc("/signup", signupHandler)
-	mux.HandleFunc("/login", loginHandler)
+	addr := flag.String("addr", ":4000", "HTTP network address")
+	flag.Parse()
 
-	log.Println("Starting server on :4040")
-	err := http.ListenAndServe(":4040", mux)
+	app := &application{}
 
+	srv := &http.Server{
+		Addr:    *addr,
+		Handler: app.routes(),
+	}
+
+	log.Printf("Starting server on %s", *addr)
+	err := srv.ListenAndServe()
 	log.Fatal(err)
 }

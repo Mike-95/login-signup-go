@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func home(w http.ResponseWriter, r *http.Request) {
+func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
 		return
@@ -15,7 +15,6 @@ func home(w http.ResponseWriter, r *http.Request) {
 	files := []string{
 		"./ui/html/home.page.html",
 		"./ui/html/base.layout.html",
-		"./ui/html/footer.partial.html",
 	}
 
 	ts, err := template.ParseFiles(files...)
@@ -31,7 +30,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func signupHandler(w http.ResponseWriter, r *http.Request) {
+func (app *application) signupHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		w.Header().Set("Allow", http.MethodPost)
 		http.Error(w, "Method Not Allowed", 405)
@@ -41,7 +40,7 @@ func signupHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func loginHandler(w http.ResponseWriter, r *http.Request) {
+func (app *application) loginHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		w.Header().Set("Allow", http.MethodPost)
 		w.WriteHeader(405)
