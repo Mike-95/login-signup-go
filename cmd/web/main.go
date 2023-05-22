@@ -21,21 +21,3 @@ func main() {
 
 	log.Fatal(err)
 }
-
-func home(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		http.NotFound(w, r)
-		return
-	}
-	w.Write([]byte("home"))
-}
-
-func signupHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Signup page..."))
-
-}
-
-func loginHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Login page.."))
-
-}
